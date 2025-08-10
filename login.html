@@ -17,64 +17,39 @@
 <body>
     <div id="liveAlertPlaceholder"></div>
     </div>
-    <div class="container mt-5 align-items-center d-flex  justify-content-center">
+    <div class="container mt-5 ">
         <div class="mt-5 border p-5 shadow rounded bg-body-tertiary">
             <h2 class="text-center mb-4">Login Page</h2>
             <form class="needs-validation" novalidate>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required suggestions="on"
-                        autocomplete="email">
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required
+                        suggestions="on" autocomplete="email">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                    <input type="password" class="form-control" id="password" placeholder="Enter your password"
+                        required>
                 </div>
-            
-            
+
+
                 <button type="submit" class="btn btn-primary w-100">Login</button>
                 <div class="mt-3 text-center">
-                    Don't have an account?<a href="register.html" target="_blank" class="text-decoration-none "> Register
+                    Don't have an account?<a href="register.html" target="_blank" class="text-decoration-none ">
+                        Register
                         here</a>
                 </div>
             </form>
         </div>
     </div>
-    <script>
-        $(document).ready(function () {
-            $('form').on('submit', function (e) {
-                e.preventDefault()
+    <div class="container mt-5">
+        <div class="mt-5 border p-5 shadow rounded bg-body-tertiary">
+            <h2 class="text-center mb-4">Login with Google</h2>
+            <button class="btn btn-danger w-100" id="googleLoginBtn">Login with Google</button>
+        </div>
 
-                // Get form data
-                var email = $('#email').val()
-                var password = $('#password').val()
-                // validate form data email and password empty or not
-                if (!email || !password) {
-                    var alertPlaceholder = $('#liveAlertPlaceholder')
-                    alertPlaceholder.html('<div class="alert alert-danger alert-dismissible" role="alert">Please fill in all fields.</div>')
-                    alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
-                    return
-                }
-                // check if the data in local storage
-                var users = JSON.parse(localStorage.getItem('users') || '[]')
-                var user = users.find(u => u.email === email && u.password === password)
-                if (user) {
-                    setTimeout(function () {
-                        window.location.href = 'dashboard.html'
-                    }, 3000)
-                    var alertPlaceholder = $('#liveAlertPlaceholder')
-                    alertPlaceholder.html('<div class="alert alert-success alert-dismissible" role="alert">Login successful!</div>')
-                    alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
-                } else {
-                    var alertPlaceholder = $('#liveAlertPlaceholder')
-                    alertPlaceholder.html('<div class="alert alert-danger alert-dismissible" role="alert">Invalid email or password. Please try again.</div>')
-                    alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
-                }
-            })
-
-            
-        })
-    </script>
+    </div>
+    <script src="login.js"></script>
 </body>
 
 </html>
