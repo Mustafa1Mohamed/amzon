@@ -16,6 +16,8 @@ $(document).ready(function () {
         var users = JSON.parse(localStorage.getItem('users') || '[]')
         var user = users.find(u => u.email === email && u.password === password)
         if (user) {
+            $('#email').removeClass('is-invalid')
+            $('#password').removeClass('is-invalid')
             setTimeout(function () {
                 window.location.replace('dashboard.html')
             }, 2000)
@@ -23,14 +25,16 @@ $(document).ready(function () {
             alertPlaceholder.html('<div class="alert alert-success alert-dismissible" role="alert">Login successful!</div>')
             alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
         } else {
+            $('#email').addClass('is-invalid')
+            $('#password').addClass('is-invalid')
             var alertPlaceholder = $('#liveAlertPlaceholder')
             alertPlaceholder.html('<div class="alert alert-danger alert-dismissible" role="alert">Invalid email or password. Please try again.</div>')
             alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
         }
     })
-    // Google Login Button click functionality don't forget to add the google api script in the html file
+
+
     $('#googleLoginBtn').on('click', function () {
-        // Simulate Google login
         var googleUser = {
             email: 'Tb7Wc@example.com',
             password: '123456'
