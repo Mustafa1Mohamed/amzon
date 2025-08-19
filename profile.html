@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <script src="jquery-3.1.1.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="profile.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-image mx-auto">
+            <img src="" alt="Profile Image" class="img-fluid">
+        </div>
+    
+        <label for="selected-image" class="upload-btn">Change Profile Picture</label>
+        <input type="file" id="selected-image" accept="image/*">
+    
+        <h1 class="profile-name"></h1>
+        <div class="profile-info">
+            <p><strong>Email:</strong> <span class="profile-email"></span></p>
+        </div>
+    
+        <button class="logout-btn">Logout</button>
+    </div>
+    <script>
+        $(document).ready(function () {
+            var profileImage = localStorage.getItem('profileImage')|| './profile-image.png';
+    
+            if (profileImage) {
+                $('.profile-image img').attr('src', profileImage);
+            }
+            var user=localStorage.getItem('currentUser')
+            if(user){
+                var userObj = JSON.parse(user)
+                var profileName = userObj.name;
+                var profileEmail = userObj.email;
+                if (profileName) {
+                    $('.profile-name').text(profileName);
+                }
+
+                if (profileEmail) {
+                    $('.profile-email').text(profileEmail);
+                }
+            }
+            else{
+                    $('.profile-name').text('Guest');
+                    $('.profile-email').text('Guest');
+
+            }
+            $('#selected-image').change(function () {
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        localStorage.setItem('profileImage', e.target.result);
+                        $('.profile-image img').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+    
+            $('.logout-btn').click(function () {
+                localStorage.removeItem('profileImage');
+                localStorage.removeItem('currentUser');
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>

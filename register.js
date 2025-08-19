@@ -6,12 +6,30 @@ $(document).ready(function () {
         var name = $('#name').val()
         var email = $('#email').val()
         var password = $('#password').val()
+        var rePassword = $('#re-password').val()
         // validate form data name, email and password empty or not
         if (!name || !email || !password) {
             var alertPlaceholder = $('#liveAlertPlaceholder')
             alertPlaceholder.html('<div class="alert alert-danger alert-dismissible" role="alert">Please fill in all fields.</div>')
             alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
             return
+        }
+        else {
+            $('#name').removeClass('is-invalid')
+            $('#email').removeClass('is-invalid')
+            $('#password').removeClass('is-invalid')
+            $('#re-password').removeClass('is-invalid')
+        }
+        // validate that the name doesn't contains numbers
+        if (/\d/.test(name)) {
+            $('#name').addClass('is-invalid')
+            var alertPlaceholder = $('#liveAlertPlaceholder')
+            alertPlaceholder.html('<div class="alert alert-danger alert-dismissible" role="alert">Name must not contain numbers.</div>')
+            alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
+            return
+        }
+        else {
+            $('#name').removeClass('is-invalid')
         }
         // validate form data email and password with regex
         var emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
@@ -23,12 +41,28 @@ $(document).ready(function () {
             alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
             return
         }
+        else {
+            $('#email').removeClass('is-invalid')
+        }
         if (!passwordPattern.test(password)) {
             $('#password').addClass('is-invalid')
             var alertPlaceholder = $('#liveAlertPlaceholder')
             alertPlaceholder.html('<div class="alert alert-danger alert-dismissible" role="alert">Password must be at least 8 characters long and contain at least one letter and one number.</div>')
             alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
             return
+        }
+        else {
+            $('#password').removeClass('is-invalid')
+        }
+        if(password !== rePassword){
+            $('#re-password').addClass('is-invalid')
+            var alertPlaceholder = $('#liveAlertPlaceholder')
+            alertPlaceholder.html('<div class="alert alert-danger alert-dismissible" role="alert">Passwords do not match. Please try again.</div>')
+            alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
+            return
+        }
+        else {
+            $('#re-password').removeClass('is-invalid')
         }
         // validate if the email already exists
         var users = JSON.parse(localStorage.getItem('users') || '[]')

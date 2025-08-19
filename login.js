@@ -12,10 +12,15 @@ $(document).ready(function () {
             alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
             return
         }
+        else {
+            $('#email').removeClass('is-invalid')
+            $('#password').removeClass('is-invalid')
+        }
         // check if the data in local storage
         var users = JSON.parse(localStorage.getItem('users') || '[]')
         var user = users.find(u => u.email === email && u.password === password)
         if (user) {
+            localStorage.setItem('currentUser', JSON.stringify(user))
             $('#email').removeClass('is-invalid')
             $('#password').removeClass('is-invalid')
             setTimeout(function () {
@@ -42,6 +47,7 @@ $(document).ready(function () {
         var users = JSON.parse(localStorage.getItem('users') || '[]')
         var user = users.find(u => u.email === googleUser.email && u.password === googleUser.password)
         if (user) {
+            
             setTimeout(function () {
                 window.location.replace('dashboard.html')
             }, 2000)
