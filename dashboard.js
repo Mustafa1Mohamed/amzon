@@ -127,6 +127,7 @@ $(document).ready(function () {
         window.location.replace('login.html')
     });
 
+    $('.logout').text('logout').css('background-color', 'red');
 
     var user = localStorage.getItem('currentUser');
 
@@ -143,7 +144,6 @@ $(document).ready(function () {
             window.location.replace('login.html');
         });
     }
-
 
     $('.nav-item').each(function () {
         let currentPath = window.location.pathname.split("/").pop(); // e.g. "cart.html"
