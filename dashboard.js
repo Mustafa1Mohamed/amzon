@@ -61,9 +61,18 @@ $(document).ready(function () {
             title: productTitle,
             description: productDescription,
             image: productImage,
-            price: productPrice
+            price: productPrice,
+            currentUser: user,
+            quantatiy: 1
         };
         const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        if (cartItems.some(item => item.title === product.title)) {
+            const item = cartItems.find(item => item.title === product.title);
+            item.quantatiy++; 
+            console.log(item.quantatiy)
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            return;
+        }
         cartItems.push(product);
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
         var alertPlaceholder = $('#liveAlertPlaceholder')
@@ -119,13 +128,32 @@ $(document).ready(function () {
     });
 
 
-    var user=localStorage.getItem('currentUser')
-    if(!user){
-        $('.logout').text('Login')
-        $('.logout').on('click', function () {
-            window.location.replace('login.html')
+    var user = localStorage.getItem('currentUser');
+
+    if (!user) {
+        $('.logout').text('Login').off('click').on('click', function () {
+            window.location.replace('login.html');
+        });
+        $('.cart').off('click').on('click', function () {
+            window.location.replace('login.html');
+        });
+    } else {
+        $('.logout').text('Logout').off('click').on('click', function () {
+            localStorage.removeItem('currentUser'); // clear
+            window.location.replace('login.html');
         });
     }
 
+
+    $('.nav-item').each(function () {
+        let currentPath = window.location.pathname.split("/").pop(); // e.g. "cart.html"
+        let linkPath = $(this).find('a').attr('href');
+
+        if (linkPath === currentPath) {
+            $(this).find('a').addClass('active');  // apply to <a>
+        } else {
+            $(this).find('a').removeClass('active');
+        }
+    });
 
 });
