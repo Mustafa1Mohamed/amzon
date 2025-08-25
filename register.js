@@ -7,58 +7,66 @@ $(document).ready(function () {
         var email = $('#email').val()
         var password = $('#password').val()
         var rePassword = $('#re-password').val()
-        // validate form data name, email and password empty or not
-        if (!name || !email || !password) {
+
+        // helper function
+        $.fn.showAlert = function (message, type) {
             var alertPlaceholder = $('#liveAlertPlaceholder')
-            alertPlaceholder.html('<div class="alert alert-danger alert-dismissible" role="alert">Please fill in all fields.</div>')
+            alertPlaceholder.html('<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '</div>')
             alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
-            return
         }
-        else {
-            $('#name').removeClass('is-invalid')
-            $('#email').removeClass('is-invalid')
-            $('#password').removeClass('is-invalid')
-            $('#re-password').removeClass('is-invalid')
-        }
-        // validate that the name doesn't contains numbers
-        if (/\d/.test(name)) {
+        // validate form data name, email and password empty or not\
+        if (!name) {
             $('#name').addClass('is-invalid')
-            var alertPlaceholder = $('#liveAlertPlaceholder')
-            alertPlaceholder.html('<div class="alert alert-danger alert-dismissible" role="alert">Name must not contain numbers.</div>')
-            alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
+            $.fn.showAlert('Field is required.', 'danger')
+            return
+        }
+        // validate that the name doesn't contains numbers or special characters
+        else if (!/^[A-Za-z]+(?: [A-Za-z]+)*$/.test(name)) {
+            $('#name').addClass('is-invalid')
+            $.fn.showAlert('Name must not contain numbers or special characters.', 'danger')
             return
         }
         else {
             $('#name').removeClass('is-invalid')
         }
+        //=============================================================================
         // validate form data email and password with regex
         var emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
         var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-        if (!emailPattern.test(email)) {
+        if(!email){
             $('#email').addClass('is-invalid')
-            var alertPlaceholder = $('#liveAlertPlaceholder')
-            alertPlaceholder.html('<div class="alert alert-danger alert-dismissible" role="alert">Please enter a valid email address.</div>')
-            alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
+            $.fn.showAlert('Field is required.', 'danger')
+            return
+        }
+        else if (!emailPattern.test(email)) {
+            $('#email').addClass('is-invalid')
+            $.fn.showAlert('Please enter a valid email address.', 'danger')
             return
         }
         else {
             $('#email').removeClass('is-invalid')
         }
-        if (!passwordPattern.test(password)) {
+        if(!password){
             $('#password').addClass('is-invalid')
-            var alertPlaceholder = $('#liveAlertPlaceholder')
-            alertPlaceholder.html('<div class="alert alert-danger alert-dismissible" role="alert">Password must be at least 8 characters long and contain at least one letter and one number.</div>')
-            alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
+            $.fn.showAlert('Field is required.', 'danger')
+            return
+        }
+        else if (!passwordPattern.test(password)) {
+            $('#password').addClass('is-invalid')
+            $.fn.showAlert('Password must be at least 8 characters long and contain at least one letter and one number.', 'danger')
             return
         }
         else {
             $('#password').removeClass('is-invalid')
         }
-        if(password !== rePassword){
+        if (!rePassword) {
             $('#re-password').addClass('is-invalid')
-            var alertPlaceholder = $('#liveAlertPlaceholder')
-            alertPlaceholder.html('<div class="alert alert-danger alert-dismissible" role="alert">Passwords do not match. Please try again.</div>')
-            alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
+            $.fn.showAlert('Field is required.', 'danger')
+            return
+        }
+        else if(password !== rePassword){
+            $('#re-password').addClass('is-invalid')
+            $.fn.showAlert('Passwords do not match.', 'danger')
             return
         }
         else {
@@ -69,9 +77,7 @@ $(document).ready(function () {
         var user = users.find(u => u.email === email)
         if (user) {
             $('#email').addClass('is-invalid')
-            var alertPlaceholder = $('#liveAlertPlaceholder')
-            alertPlaceholder.html('<div class="alert alert-danger alert-dismissible" role="alert">Email already exists. Please use a different email.</div>')
-            alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
+            $.fn.showAlert('Email already exists.', 'danger')
             return
         }
         $('#email').removeClass('is-invalid')
@@ -84,9 +90,7 @@ $(document).ready(function () {
     })
 
     $('#googleRegisterBtn').on('click', function () {
-        var alertPlaceholder = $('#liveAlertPlaceholder')
-        alertPlaceholder.html('<div class="alert alert-success alert-dismissible" role="alert">Google registration successful!</div>')
-        alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
+        $.fn.showAlert('Registration successful!', 'success')
         setTimeout(function () {
             window.location.replace('login.html')
         }, 2000)

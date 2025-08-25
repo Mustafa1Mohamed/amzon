@@ -1,6 +1,7 @@
 $(document).ready(function () {
     let allProducts = []
     let currentPage = 1;
+    let totalPages = 1;
     $.fn.getData = function () {
         $.ajax({
             url: 'https://fakestoreapi.com/products',
@@ -17,7 +18,6 @@ $(document).ready(function () {
     $.fn.displayProducts = function (products) {
         let html = '';
         products.forEach(function (product) {
-            console.log(product.price)
             html += `
                 <div class="product col-12 col-md-6 col-lg-4 mb-4">
                     <div class="card shadow-sm h-100">
@@ -78,14 +78,14 @@ $(document).ready(function () {
         var alertPlaceholder = $('#liveAlertPlaceholder')
        setInterval(() => {
         alertPlaceholder.html('')
-       }, 5000)
+       }, 2000)
         alertPlaceholder.html('<div class="alert alert-success alert-dismissible" role="alert">Product added to cart successfully.</div>')
         alertPlaceholder.find('.alert').append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
     });
 
     $.fn.initializeApp();
     $.fn.initializePagination = function () {
-        const totalPages = Math.ceil(allProducts.length / 5);
+        totalPages = Math.ceil(allProducts.length / 5);
         $('.pagination__pages').html('');
         for (let i = 1; i <= totalPages; i++) {
             $('.pagination__pages').append(`<div class="pagination__btn pagination__page ${i === 1 ? 'active' : ''}">${i}</div>`);
@@ -100,7 +100,7 @@ $(document).ready(function () {
     }
 
 
-    $('.pagination__left').off('click').on('click', function () {
+    $('.right-btn').on('click', function () {
         if (currentPage < totalPages) {
             currentPage++;
             $('.pagination__page').removeClass('active');
@@ -109,7 +109,7 @@ $(document).ready(function () {
         }
     });
 
-    $('.pagination__right').off('click').on('click', function () {
+    $('.left-btn').on('click', function () {
         if (currentPage > 1) {
             currentPage--;
             $('.pagination__page').removeClass('active');
